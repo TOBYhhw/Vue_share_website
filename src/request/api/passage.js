@@ -1,22 +1,52 @@
-import { myaxios2 } from "../http";
-export function apiUploadResource(data) {
-    return myaxios2({
-        url: "/admin/uploadResources?",
-        method: "post",
-        data,
-        responseType: "blob"
-    })
+import { myAxios2 } from "../http";
+export function apiGetPassage(data) {
+    return myAxios2({
+        url: "/passage/queryAllPassage?",
+        method: "get",
+        params: data,
+    });
 }
 export function apiDownResource(data) {
-    return myaxios2({
+    return myAxios2({
         url: "/passage/downResources?",
         method: "post",
         data,
         responseType: "blob"
     })
 }
+export function apiGetPassageResource(data) {
+    return myAxios2({
+        url: "/passage/passageResources?",
+        method: "get",
+        params: data,
+    });
+}
+
+export function apiCreatePassage(data) {
+    return myAxios2({
+        url: "/admin/createPassage?",
+        method: "post",
+        params: data,
+    });
+}
+
+export function apiCreateComment(data) {
+    return myAxios2({
+        url: "/comment/createComment?",
+        method: "post",
+        params: data,
+    });
+}
+export function apiUploadResource(data) {
+    return myAxios2({
+        url: "/admin/uploadResources?",
+        method: "post",
+        data,
+        responseType: "blob",
+    });
+}
 export function apiUploadImg(data) {
-    return myaxios2({
+    return myAxios2({
         url: "/admin/uploadImg?",
         method: "post",
         data,
@@ -24,17 +54,31 @@ export function apiUploadImg(data) {
     })
 }
 export function apiRemoveComment(data) {
-    return myaxios2({
+    return myAxios2({
         url: "/admin/deleteComment?",
         method: "post",
-        data,
+        params: data,
+    });
+}
 
-    })
-} export function apiRemoveResource(data) {
-    return myaxios2({
+export function apiRemovePassage(data) {
+    return myAxios2({
+        url: "/admin/deletePassage?",
+        method: "post",
+        params: data,
+    });
+}
+
+export function apiRemoveResource(data) {
+    return myAxios2({
         url: "/admin/deleteResources?",
         method: "post",
-        data,
-
-    })
+        params: data,
+    });
+}
+export function apiGetFileCount() {
+    return myAxios2({
+        url: "/admin/queryTotalFileCount",
+        method: "post",
+    });
 }

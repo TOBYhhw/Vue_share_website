@@ -1,18 +1,22 @@
-import axios from "axios"
-export function myaxios(axiosConfig) {
+import axios from "axios";
+
+export function myAxios(axiosConfig) {
     const service = axios.create({
-        baseURL: "/api",
-        timeout: 10000
-    })
-    return service(axiosConfig)
+        baseURL: "/api", // 设置统一的请求前缀
+        timeout: 10000 // 设置统一的超时时长
+    });
+
+    return service(axiosConfig);
 }
-export function myaxios2(axiosConfig) {
+
+export function myAxios2(axiosConfig) {
     const service = axios.create({
-        baseURL: "/api",
-        timeout: 10000,
+        baseURL: "/api", // 设置统一的请求前缀
+        timeout: 10000, // 设置统一的超时时长
         headers: {
             token: window.sessionStorage.getItem("token")
         }
-    })
-    return service(axiosConfig)
+    });
+
+    return service(axiosConfig);
 }

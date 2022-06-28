@@ -88,12 +88,6 @@
               <Card dis-hover>
                 <p slot="title">公告</p>
                 <Table :columns="columns2" :data="data2"></Table>
-                <Page
-                  :total="total2"
-                  :current="current2"
-                  :page-size="PageSize2"
-                  @on-change="currentchange2"
-                />
               </Card>
             </Col>
           </Row>
@@ -105,7 +99,8 @@
 </template>
 
 <script>
-import axios from "axios";
+import { apiGetComment } from "@/request/api/hall";
+import { apiGetNotice } from "@/request/api/notice";
 export default {
   name: "IndexMain",
   data() {
@@ -125,19 +120,16 @@ export default {
       total1: 1,
       current1: 1,
       PageSize1: 5,
-      total2: 1,
-      current2: 1,
-      PageSize2: 5,
     };
   },
   methods: {
     getdata() {
-      axios({
-        method: "post",
-        url: `/api/hallComment/queryAllHallComment?pageNo=${this.current1}&pageSize=${this.PageSize1}`,
-      })
+      const data = {
+        pageNo: this.current1,
+        pageSize: this.PageSize1,
+      };
+      apiGetComment(data)
         .then((res) => {
-          console.log(res);
           this.data1 = res.data[0];
           this.total1 = parseInt(res.data[2].slice(4)) * this.PageSize1;
         })
@@ -155,9 +147,6 @@ export default {
         }
       }
     },
-    currentchange2(val) {
-      this.current2 = val;
-    },
     currentchange1(val) {
       this.current1 = val;
       this.getdata();
@@ -173,14 +162,9 @@ export default {
   },
   mounted() {
     this.getdata();
-    axios({
-      method: "get",
-      url: `/api/notice/queryNotice`,
-    })
+    apiGetNotice()
       .then((res) => {
-        console.log("1111", res);
         this.data2 = res.data;
-        this.total2 = res.data[0].length;
       })
       .catch((res) => {
         console.log(res);
