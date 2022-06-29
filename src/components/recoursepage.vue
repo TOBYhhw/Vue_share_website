@@ -402,7 +402,6 @@ export default {
             this.value17 = "";
             this.value16 = "";
             this.getPassage();
-            console.log(res);
           })
           .catch((res) => {
             this.$Message.error("发布失败呜呜呜！！");

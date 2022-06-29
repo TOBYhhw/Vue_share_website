@@ -37,22 +37,22 @@
             <Carousel autoplay v-model="value2" loop>
               <CarouselItem>
                 <div class="demo-carousel">
-                  <img src="@/css/2.jpg" alt="" height="500px" width="100%" />
+                  <img src="@/css/2.jpg" alt="" height="400px" width="100%" />
                 </div>
               </CarouselItem>
               <CarouselItem>
                 <div class="demo-carousel">
-                  <img src="@/css/3.jpg" alt="" height="500px" width="100%" />
+                  <img src="@/css/3.jpg" alt="" height="400px" width="100%" />
                 </div>
               </CarouselItem>
               <CarouselItem>
                 <div class="demo-carousel">
-                  <img src="@/css/4.jpg" alt="" height="500px" width="100%" />
+                  <img src="@/css/4.jpg" alt="" height="400px" width="100%" />
                 </div>
               </CarouselItem>
               <CarouselItem>
                 <div class="demo-carousel">
-                  <img src="@/css/1.jpg" height="500px" width="100%" />
+                  <img src="@/css/1.jpg" height="400px" width="100%" />
                 </div>
               </CarouselItem>
             </Carousel>
