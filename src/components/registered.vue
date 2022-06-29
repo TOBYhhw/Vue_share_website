@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import axios from "axios";
+import { apiRegister } from "@/request/api/user";
 export default {
   name: "RegisteredDoing",
   data() {
@@ -79,19 +79,19 @@ export default {
     handleSubmit(name) {
       this.$refs[name].validate((valid) => {
         if (valid) {
-          axios
-            .post(
-              `/api/user/register?password=${this.formInline.password}&username=${this.formInline.user}`
-            )
+          const data = {
+            password: this.formInline.password,
+            username: this.formInline.user,
+          };
+          apiRegister(data)
             .then((res) => {
-              console.log(res);
-              if (res.status === 200) {
-                this.$Message.success("注册成功!");
+              if (res.data === false) {
+                this.$Message.error("该用户名已存在");
+              } else {
+                this.$Message.success("注册成功");
                 this.$router.push({
                   name: "LoginDoing",
                 });
-              } else {
-                this.$message.error("用户名已存在！");
               }
             })
             .catch(function (error) {
