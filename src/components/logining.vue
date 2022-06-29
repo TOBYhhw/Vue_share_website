@@ -90,7 +90,7 @@
 </template>
 
 <script>
-import axios from "axios";
+import { apiLogin } from "@/request/api/user";
 export default {
   name: "LoginDoing",
   data() {
@@ -153,10 +153,11 @@ export default {
     handleSubmit1(name) {
       this.$refs[name].validate((valid) => {
         if (valid) {
-          axios
-            .post(
-              `/api/user/userLogin?password=${this.formInline1.password1}&username=${this.formInline1.user1}`
-            )
+          const data = {
+            password: this.formInline1.password1,
+            username: this.formInline1.user1,
+          };
+          apiLogin(data)
             .then((res) => {
               console.log(res);
               if (res.status === 200) {
@@ -180,10 +181,11 @@ export default {
       this.$refs[name].validate((valid) => {
         console.log(2);
         if (valid) {
-          axios
-            .post(
-              `/api/user/userLogin?password=${this.formInline2.password2}&username=${this.formInline2.user2}`
-            )
+          const data = {
+            password: this.formInline2.password2,
+            username: this.formInline2.user2,
+          };
+          apiLogin(data)
             .then((res) => {
               console.log(res);
               if (
