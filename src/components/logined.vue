@@ -69,7 +69,7 @@
                 <Input
                   v-model="value"
                   type="textarea"
-                  :rows="10"
+                  :rows="12"
                   placeholder="有什么想说的捏..."
                 />
                 <Button @click="sent">发表留言</Button>
