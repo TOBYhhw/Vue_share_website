@@ -175,12 +175,17 @@
 </template>
 
 <script>
-import axios from "axios";
 import {
   apiUploadResource,
   apiUploadImg,
   apiRemoveComment,
   apiRemoveResource,
+  apiGetPassage,
+  apiGetPassageResource,
+  apiCreateAdminComment,
+  apiRemovePassage,
+  apiGetFileCount,
+  apiCreatePassage,
 } from "@/request/api/passage.js";
 export default {
   name: "RecoursePage",
@@ -267,13 +272,11 @@ export default {
     },
     getPassage() {
       let c = this;
-      axios({
-        method: "get",
-        url: `/api/passage/queryAllPassage?pageNo=${this.pageNo}&pageSize=${this.pageSize}`,
-        headers: {
-          token: this.$store.state.token,
-        },
-      })
+      const data = {
+        pageNo: this.pageNo,
+        pageSize: this.pageSize,
+      };
+      apiGetPassage(data)
         .then((response) => {
           c.listTotal = response.data.总页数;
           for (let i = 0; i < response.data.passageItem.length; i++) {
@@ -287,20 +290,13 @@ export default {
     },
     getPassageResource(id) {
       let c = this;
-      axios({
-        method: "get",
-        url: `/api/passage/passageResources?passageID=${id}`,
-        headers: {
-          "Content-Type": "multipart/form-data",
-          token: this.$store.state.token,
-        },
-      })
+      const data = {
+        passageID: id,
+      };
+      apiGetPassageResource(data)
         .then((response) => {
-          console.log("114514", response);
           c.passageResource = response.data;
-          console.log("555555555", c.passageResource);
           c.passageResource[2] = Object.values(c.passageResource[2]);
-          console.log("4444444444444", c.passageResource[2]);
           if (c.passageResource[1][0] == undefined) {
             c.passageResource[1] = [{ address: "暂无" }];
           }
@@ -320,14 +316,11 @@ export default {
     },
     addComment(id) {
       let c = this;
-      axios({
-        method: "post",
-        url: `/api/admin/createComment?content=${this.inputValue}&passageID=${id}`,
-        headers: {
-          "Content-Type": "multipart/form-data",
-          token: this.$store.state.token,
-        },
-      })
+      const data = {
+        content: this.inputValue,
+        passageID: id,
+      };
+      apiCreateAdminComment(data)
         .then((response) => {
           if (response.data.code == 401) {
             c.$Message.error("发送内容不能为空");
@@ -356,14 +349,10 @@ export default {
     },
     removePassage(id) {
       let c = this;
-      axios({
-        method: "post",
-        url: `/api/admin/deletePassage?passageID=${id}`,
-        headers: {
-          "Content-Type": "multipart/form-data",
-          token: this.$store.state.token,
-        },
-      })
+      const data = {
+        passageID: id,
+      };
+      apiRemovePassage(data)
         .then((response) => {
           c.$Message.success("删除成功");
           c.passageData.length = 0;
@@ -390,14 +379,7 @@ export default {
         });
     },
     lookfile() {
-      axios({
-        method: "post",
-        url: `/api/admin/queryTotalFileCount`,
-        headers: {
-          "Content-Type": "multipart/form-data",
-          token: this.$store.state.token,
-        },
-      })
+      apiGetFileCount()
         .then((res) => {
           console.log("123123", res);
           this.$Message.success("当前文件总数为:" + res.data);
@@ -410,14 +392,11 @@ export default {
       if (this.value16 == "" && this.value17 == "") {
         this.$Message.error("请输入内容！！");
       } else {
-        axios({
-          method: "post",
-          url: `/api/admin/createPassage?content=${this.value17}&title=${this.value16}`,
-          headers: {
-            "Content-Type": "multipart/form-data",
-            token: this.$store.state.token,
-          },
-        })
+        const data = {
+          content: this.value17,
+          title: this.value16,
+        };
+        apiCreatePassage(data)
           .then((res) => {
             this.$Message.success("发布成功啊哈哈哈！！！");
             this.value17 = "";

@@ -134,8 +134,12 @@
 </template>
 
 <script>
-import axios from "axios";
-import { apiDownResource } from "@/request/api/passage.js";
+import {
+  apiDownResource,
+  apiGetPassage,
+  apiGetPassageResource,
+  apiCreateComment,
+} from "@/request/api/passage.js";
 export default {
   name: "RecourseIndex",
   data() {
@@ -188,13 +192,11 @@ export default {
     },
     getPassage() {
       let c = this;
-      axios({
-        method: "get",
-        url: `/api/passage/queryAllPassage?pageNo=${this.pageNo}&pageSize=${this.pageSize}`,
-        headers: {
-          token: this.$store.state.token,
-        },
-      })
+      const data = {
+        pageNo: this.pageNo,
+        pageSize: this.pageSize,
+      };
+      apiGetPassage(data)
         .then((response) => {
           c.listTotal = response.data.总页数;
           for (let i = 0; i < response.data.passageItem.length; i++) {
@@ -208,13 +210,10 @@ export default {
     },
     getPassageResource(id) {
       let c = this;
-      axios({
-        method: "get",
-        url: `/api/passage/passageResources?passageID=${id}`,
-        headers: {
-          token: this.$store.state.token,
-        },
-      })
+      const data = {
+        passageID: id,
+      };
+      apiGetPassageResource(data)
         .then((response) => {
           c.passageResource = response.data;
           c.passageResource[2] = Object.values(c.passageResource[2]);
@@ -240,13 +239,12 @@ export default {
         c.$Message.error("发送内容不能为空噢~~");
         return;
       }
-      axios({
-        method: "post",
-        url: `/api/comment/createComment?content=${this.inputValue}&passageID=${id}&userID=1`,
-        headers: {
-          token: this.$store.state.token,
-        },
-      })
+      const data = {
+        content: this.inputValue,
+        passageID: id,
+        userID: 1,
+      };
+      apiCreateComment(data)
         .then((response) => {
           if (response.data.code == 401) {
             c.$Message.error("发送内容不能为空喔喔~~");

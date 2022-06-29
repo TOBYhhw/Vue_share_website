@@ -77,7 +77,7 @@
 </template>
 
 <script>
-import axios from "axios";
+import { apiGetUser, apiSearchUser } from "@/request/api/admin";
 export default {
   name: "UserPage",
   data() {
@@ -96,14 +96,11 @@ export default {
     };
   },
   created() {
-    axios({
-      method: "post",
-      url: `/api/admin/queryAllUser?pageNo=${this.current}&pageSize=${this.PageSize}`,
-      headers: {
-        "Content-Type": "multipart/form-data",
-        token: this.$store.state.token,
-      },
-    })
+    const data = {
+      pageNo: this.current,
+      pageSize: this.PageSize,
+    };
+    apiGetUser(data)
       .then((res) => {
         console.log(res);
         this.data1 = res.data[0];
@@ -123,14 +120,11 @@ export default {
     },
     currentchange(val) {
       this.current = val;
-      axios({
-        method: "post",
-        url: `/api/admin/queryAllUser?pageNo=${this.current}&pageSize=${this.PageSize}`,
-        headers: {
-          "Content-Type": "multipart/form-data",
-          token: this.$store.state.token,
-        },
-      })
+      const data = {
+        pageNo: this.current,
+        pageSize: this.PageSize,
+      };
+      apiGetUser(data)
         .then((res) => {
           console.log(res);
           this.data1 = res.data[0];
@@ -157,15 +151,10 @@ export default {
       this.$Message.success("注销成功！");
     },
     search(val) {
-      console.log(val);
-      axios({
-        method: "post",
-        url: `/api/admin/queryUserInfoByName?name=${val}`,
-        headers: {
-          "Content-Type": "multipart/form-data",
-          token: this.$store.state.token,
-        },
-      })
+      const data = {
+        name: val,
+      };
+      apiSearchUser(data)
         .then((res) => {
           if (res.data == "") {
             this.show = false;
