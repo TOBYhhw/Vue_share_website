@@ -74,7 +74,8 @@
 </template>
 
 <script>
-import axios from "axios";
+import { apiGetComment, apiRemoveComment } from "@/request/api/hall";
+import { apiUpdateNotice } from "@/request/api/notice";
 export default {
   name: "MyAdmin",
   data() {
@@ -118,12 +119,12 @@ export default {
       }
     },
     getdata() {
-      axios({
-        method: "post",
-        url: `/api/hallComment/queryAllHallComment?pageNo=${this.current}&pageSize=${this.PageSize}`,
-      })
+      const data = {
+        pageNo: this.current,
+        pageSize: this.PageSize,
+      };
+      apiGetComment(data)
         .then((res) => {
-          console.log(res);
           this.data6 = res.data[0];
           this.total = parseInt(res.data[2].slice(4)) * this.PageSize;
         })
@@ -136,15 +137,10 @@ export default {
       this.getdata();
     },
     remove(row, index) {
-      console.log(row, index);
-      axios({
-        method: "post",
-        url: `/api/admin/deleteHallComment?ID=${row.id}`,
-        headers: {
-          "Content-Type": "multipart/form-data",
-          token: this.$store.state.token,
-        },
-      })
+      const data = {
+        ID: row.id,
+      };
+      apiRemoveComment(data)
         .then((res) => {
           console.log(res);
           if (res.status === 200) {
@@ -161,14 +157,8 @@ export default {
       if (this.value == "") {
         this.$Message.error("请输入内容！！");
       } else {
-        axios({
-          method: "post",
-          url: `/api/admin/updateNotice?content=${this.value}`,
-          headers: {
-            "Content-Type": "multipart/form-data",
-            token: this.$store.state.token,
-          },
-        })
+        const data = { content: this.value };
+        apiUpdateNotice(data)
           .then((res) => {
             this.$Message.success("发布成功！！！");
             this.value = "";
